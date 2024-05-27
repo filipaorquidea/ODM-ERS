@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <meta charset="utf-8" />
+    <title>LAGEN-DANIELA HAUFE</title>
+  </head>
+  <body>
+    <nav>
+      <ul class="visit_nav" id="visit_nav">
+        <li><a href="hours.html">HOURS AND ADMISSION</a></li>
+        <li><a href="location.html">LOCATION AND CONTACTS</a></li>
+        <li><a href="accessibility.html">ACCESSIBILITY</a></li>
+      </ul>
+
+      <ul class="exhibition_nav" id="exhibition_nav">
+        <li><a href="lagen.html">LAGEN</a></li>
+        <li><a href="collection.html">DISCOVER THE COLLECTION</a></li>
+      </ul>
+
+      <ul class="top_nav">
+        <li><a href="index.html">HOME</a></li>
+        <li onclick="show_nav_bar('visit_nav', 'exhibition_nav')">VISIT</li>
+        <li onclick="show_nav_bar('exhibition_nav', 'visit_nav')">EXHIBIT</li>
+        <li><a href="about.html">ABOUT</a></li>
+        <li><a href="store.html">SHOP</a></li>
+      </ul>
+    </nav>
+
+    <section id="lagen">
+      <h1 class="page_title" style="font-size: 20vw">LAGEN</h1>
+    </section>
+    <section></section>
+
+    <script>
+      function show_nav_bar(nav_element1, nav_element2) {
+        let nav_show = document.getElementById(nav_element1);
+        let nav_hide = document.getElementById(nav_element2);
+
+        nav_show.style.display = "block";
+        nav_hide.style.display = "none";
+
+        const nodeList = document.querySelectorAll("section");
+        for (let i = 0; i < nodeList.length; i++) {
+          nodeList[i].style.display = "none";
+        }
+      }
+    </script>
+  </body>
+</html>

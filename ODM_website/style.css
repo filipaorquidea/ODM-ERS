@@ -1,0 +1,214 @@
+/* General */
+/* Links */
+
+a {
+  text-decoration: none;
+}
+
+/* List*/
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Body */
+body {
+  margin: 0;
+  font-family: "Jost", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+html {
+  scroll-snap-type: y mandatory;
+}
+
+section {
+  margin: 0;
+}
+
+/* Navigation Bar */
+
+/*Top Nav*/
+.top_nav {
+  position: fixed;
+  width: 100vw;
+  padding: 2%;
+  background-color: white;
+}
+
+.top_nav li {
+  display: inline;
+  position: relative;
+
+  /*background-color: #8a46bf;*/
+  color: black;
+  padding: 0.5%;
+  margin-right: 0.3vw;
+
+  /*Font*/
+  font-size: large;
+  font-weight: 550;
+}
+
+.top_nav li a {
+  color: black;
+}
+
+.top_nav li:after {
+  position: absolute;
+  content: "";
+  top: 4.5vh;
+  left: 0;
+  width: 0;
+  height: 0.3vh;
+  background: black;
+  transition: all 0.35s;
+}
+
+.top_nav li:hover:after {
+  width: 100%;
+}
+
+.top_nav li:hover,
+.top_nav li a:hover {
+  color: #8a46bf;
+}
+
+/*Visit Nav & Exhibition Nav*/
+
+#visit_nav,
+#exhibition_nav {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  position: fixed;
+}
+
+.visit_nav li a,
+.exhibition_nav li a {
+  position: relative;
+  top: 13vh;
+
+  /*Font*/
+  font-size: xx-large;
+  font-weight: 500;
+  color: black;
+  margin-left: 2vw;
+}
+
+.visit_nav li a:hover,
+.exhibition_nav li a:hover {
+  color: #9ad26a;
+}
+
+/*Page's Text*/
+.page_title {
+  font-size: 12vw;
+  font-weight: 550;
+  color: white;
+}
+
+.page_subtitle {
+  position: relative;
+  top: 2vh;
+  display: block;
+  font-size: 4vw;
+  font-weight: 500;
+}
+
+.page_info {
+  font-size: x-large;
+  margin: 0;
+  max-width: 50vw;
+}
+
+.info_title {
+  font-size: 2.5vw;
+  font-weight: 400;
+  margin: 0 0 0.8vh;
+}
+
+.dif_info {
+  font-size: 1.2vw;
+  font-weight: 400;
+}
+
+/*Page's content - https://codepen.io/argyleink/pen/yLovWjz*/
+section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  height: 100vh;
+  padding: 2vw;
+}
+
+section:nth-of-type(even) {
+  color: white;
+  background: black;
+}
+
+section:nth-of-type(odd) {
+  color: black;
+  background: white;
+}
+
+#location_contacts,
+#collection,
+#about {
+  background-image: url("assets/fundo5.png");
+  background-size: 100vw;
+}
+
+#hours_admission,
+#lagen {
+  background-image: url("assets/fundo6.png");
+  background-size: 100vw;
+}
+
+#accessibility,
+#store {
+  background-image: url("assets/fundo2.png");
+  background-size: 100vw;
+}
+
+/*Page's buttons - https://codepen.io/thelaazyguy/pen/brryVq*/
+.page_button {
+  position: relative;
+  background-color: black;
+  border: none;
+  color: white;
+  padding: 1.5vh 1.5vw;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.page_button span {
+  position: relative;
+  z-index: 2;
+  font-size: 1.4vw;
+  font-weight: 700;
+}
+
+.page_button:hover {
+  color: black;
+}
+
+.page_button:after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: #9ad26a;
+  transition: all 0.35s;
+}
+
+.page_button:hover:after {
+  width: 100%;
+}
