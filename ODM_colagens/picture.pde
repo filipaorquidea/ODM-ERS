@@ -12,14 +12,23 @@ String myString;
 int lf = 10;
 byte [] currentUser ={0, 0, 0, 0};
 
+PImage [] preview = new PImage [5];
+
+//Imagem usada como base para as previews
+PImage display_image;
+
 void setup() {
+  //Horizontal
+  //size(640, 480);
+  
+  //Vertical
   size(480, 640);
 
   //Configurar e Limpar a Serial Port
-  printArray(Serial.list());
-  String portName = Serial.list()[2];
-  myPort = new Serial(this, portName, 9600);
-  myPort.clear();
+  /*printArray(Serial.list());
+   String portName = Serial.list()[2];
+   myPort = new Serial(this, portName, 9600);
+   myPort.clear();*/
 
   String[] cameras = Capture.list();
 
@@ -36,6 +45,13 @@ void setup() {
     live_camera.start();
   }
 
+  for (int i = 0; i < preview.length; i++) {
+    preview[i] = loadImage("assets/" + "filtro" + (i+1) + ".jpg");
+  }
+
+  //Imagem usada como base para as previews
+  display_image = loadImage("assets/" + "display.jpg");
+
   //Variáveis
   countdown = 0;
   seconds = 0;
@@ -50,17 +66,25 @@ void setup() {
 void draw() {
 
   //Ler Data
-  while (myPort.available() > 0) {
-    getData();
-  }
-  
+  /*while (myPort.available() > 0) {
+   getData();
+   }*/
+
   image(live_camera, 0, 0);
   filters(filter, live_camera);
+
+  //Imagem usada como base para as previews
+  //image(display_image, 0, 0);
+
   if (trigger_countdown!=true) {
     for (int i=0; i<5; i++) {
-      image(live_camera, (pos_x+i*(live_camera.width/div_factor+pos_x)), pos_y, live_camera.width/div_factor, live_camera.height/div_factor);
+      image(preview[i], (pos_x+i*(live_camera.width/div_factor+pos_x)), pos_y, live_camera.width/div_factor, live_camera.height/div_factor);
     }
   }
+
+  //Imagem usada como base para as previews
+  //filters(filter, display_image);
+
 
   filter(GRAY);
 
@@ -76,6 +100,9 @@ void draw() {
     }
     if ((countdown-seconds) >= 3) {
       save(sketchPath("exportacao/" + nomePastaOuput + "/" + str(currentUser[0])+" "+str(currentUser[1])+" "+str(currentUser[2])+" "+str(currentUser[3])+ ".jpg"));
+      
+      //save(sketchPath("exportacao/" + nomePastaOuput + "/" + nf(frameCount, 6) + ".jpg"));
+      
       countdown = 0;
       trigger_countdown = false;
     }
@@ -110,11 +137,11 @@ void keyPressed() {
 }
 
 void getData() {
-     
+
   //Ler a informação da serial port
   myString = myPort.readStringUntil(lf);
   println(myString);
-   
+
   if (myString != null) {
 
     if (myString.charAt(0) == 'U') {
@@ -128,5 +155,5 @@ void getData() {
     }
   }
 
-println(currentUser);
+  println(currentUser);
 }
