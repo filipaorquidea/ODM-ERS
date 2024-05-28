@@ -20,7 +20,7 @@ PImage display_image;
 void setup() {
   //Horizontal
   //size(640, 480);
-  
+
   //Vertical
   size(480, 640);
 
@@ -93,16 +93,24 @@ void draw() {
     seconds = second();
   } else if (trigger_countdown == true) {
     countdown = second();
-    fill(255, 0, 0);
-    textSize(60);
+
     if ((3-(countdown-seconds))!=0) {
-      text(3-(countdown-seconds), width/2, height/2);
+      ellipseMode(CENTER);
+      noStroke();
+      fill(150);
+      circle(width/2, height/2, 80);
+
+
+      textAlign(CENTER, CENTER);
+      fill(255);
+      textSize(60);
+      text(3-(countdown-seconds), width/2+1, height/2-5);
     }
     if ((countdown-seconds) >= 3) {
       save(sketchPath("exportacao/" + nomePastaOuput + "/" + str(currentUser[0])+" "+str(currentUser[1])+" "+str(currentUser[2])+" "+str(currentUser[3])+ ".jpg"));
-      
+
       //save(sketchPath("exportacao/" + nomePastaOuput + "/" + nf(frameCount, 6) + ".jpg"));
-      
+
       countdown = 0;
       trigger_countdown = false;
     }
