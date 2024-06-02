@@ -13,6 +13,8 @@ int lf = 10;
 byte [] currentUser ={0, 0, 0, 0};
 
 PImage [] preview = new PImage [5];
+PFont jost;
+PShape counter1, counter2, counter3;
 
 //Imagem usada como base para as previews
 PImage display_image;
@@ -52,6 +54,18 @@ void setup() {
   //Imagem usada como base para as previews
   display_image = loadImage("assets/" + "display.jpg");
 
+  //Fonte
+  jost = createFont("assets/" + "Jost-SemiBold.ttf", 80);
+  textFont(jost);
+
+  //Formas - Counter
+  counter1 = loadShape("assets/" +"counter1.svg");
+  counter2 = loadShape("assets/" +"counter2.svg");
+  counter3 = loadShape("assets/" +"counter3.svg");
+  counter1.disableStyle();
+  counter2.disableStyle();
+  counter3.disableStyle();
+
   //Variáveis
   countdown = 0;
   seconds = 0;
@@ -64,6 +78,7 @@ void setup() {
 }
 
 void draw() {
+  //save(sketchPath("exportacao/" + nomePastaOuput + "/" + nf(frameCount, 6) + ".jpg"));
 
   //Ler Data
   /*while (myPort.available() > 0) {
@@ -95,19 +110,35 @@ void draw() {
     countdown = second();
 
     if ((3-(countdown-seconds))!=0) {
-      ellipseMode(CENTER);
+      //ellipseMode(CENTER);
+      shapeMode(CENTER);
       noStroke();
-      fill(150);
-      circle(width/2, height/2, 80);
 
+      pushMatrix();
+
+      translate(width/2, height/2);
+      //circle(width/2, height/2, 120);
+      if (3-(countdown-seconds) == 3) {
+        scale(4);
+        fill(80);
+        shape(counter1, 0, 0);
+      } else if (3-(countdown-seconds) == 2) {
+        scale(2.5);
+        fill(#E88F00);
+        shape(counter2, 15, 0);
+      } else if (3-(countdown-seconds) == 1) {
+        scale(6);
+        fill(0);
+        shape(counter3, 0, 4);
+      }
+      popMatrix();
 
       textAlign(CENTER, CENTER);
       fill(255);
-      textSize(60);
       text(3-(countdown-seconds), width/2+1, height/2-5);
     }
     if ((countdown-seconds) >= 3) {
-      save(sketchPath("exportacao/" + nomePastaOuput + "/" + str(currentUser[0])+" "+str(currentUser[1])+" "+str(currentUser[2])+" "+str(currentUser[3])+ ".jpg"));
+      //save(sketchPath("exportacao/" + nomePastaOuput + "/" + str(currentUser[0])+" "+str(currentUser[1])+" "+str(currentUser[2])+" "+str(currentUser[3])+ ".jpg"));
 
       //save(sketchPath("exportacao/" + nomePastaOuput + "/" + nf(frameCount, 6) + ".jpg"));
 
