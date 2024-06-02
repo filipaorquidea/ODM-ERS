@@ -7,7 +7,7 @@ Capture cam;
 OpenCV opencv;
 PImage canny, scharr, sobel, pose1, pose2, pose3;
 int silhueta;
-int lastCaptureTime;
+//int lastCaptureTime;
 int captureInterval = 10000; // Intervalo de 10 segundos (10000 milissegundos)
 
 //Comunicação Serial
@@ -20,14 +20,14 @@ String nomePastaOuput;
 
 void setup() {
   //Configurar e Limpar a Serial Port
-   printArray(Serial.list());
+   /*printArray(Serial.list());
    String portName = Serial.list()[2];
    myPort = new Serial(this, portName, 9600);
-   myPort.clear();
+   myPort.clear();*/
 
   size(1280, 960);
   silhueta = 1;
-  lastCaptureTime = 0;
+  //lastCaptureTime = 0;
 
   // Lista todos os dispositivos de captura disponíveis
   String[] devices = Capture.list();
@@ -44,7 +44,7 @@ void setup() {
   }
 
   // Inicializa a câmera
-  cam = new Capture(this, 640, 480, devices[0]);
+  cam = new Capture(this, 640, 480, devices[2]);
   cam.start();
   println("Câmera inicializada: " + devices[0]);
 
@@ -59,9 +59,9 @@ void draw() {
   //save(sketchPath("exportacao/" + nomePastaOuput + "/" + nf(frameCount, 6) + ".jpg"));
 
   //Ler Data
-  while (myPort.available() > 0) {
+  /*while (myPort.available() > 0) {
    getData();
-   }
+   }*/
 
   if (cam.available() == true) {
     cam.read();
@@ -86,7 +86,7 @@ void draw() {
     opencv.findSobelEdges(1, 0);
     sobel = opencv.getSnapshot();
 
-    background(245);
+    //background(245);
 
     // Exibe a imagem das bordas Canny
     tint(255, 204); // Redefine a opacidade para a próxima imagem
@@ -102,18 +102,15 @@ void draw() {
     }
 
     // Verifica se é hora de salvar um frame
-    if (millis() - lastCaptureTime >= captureInterval) {
+    if (millis() == captureInterval) {
       save(sketchPath("exportacao/" + nomePastaOuput + "/" + str(currentUser[0])+" "+str(currentUser[1])+" "+str(currentUser[2])+" "+str(currentUser[3])+ ".jpg"));
-      //saveFrame("output-####.png");
       println("Frame salvo.");
-      lastCaptureTime = millis(); // Atualiza o tempo da última captura
     }
   } else {
     println("Frame da câmera não disponível.");
   }
 
   println("Tempo atual: " + millis());
-  println("Tempo da última captura: " + lastCaptureTime);
 }
 
 // Função para mudar a silhueta quando uma tecla é liberada
