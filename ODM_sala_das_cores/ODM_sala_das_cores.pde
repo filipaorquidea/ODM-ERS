@@ -117,7 +117,7 @@ void mousePressed() {
 
         //savedcolors = append(savedcolors, cor);
         if(c<4){
-        savedcolors[c] = byte(cor);
+          savedcolors[c] = byte(cor);
         }
 
         println(savedcolors);
@@ -126,8 +126,6 @@ void mousePressed() {
       }
     }
   }
-  
-  savedcolors[c] = byte(cor);
   
   stroke(cor);
   c++;
