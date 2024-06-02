@@ -116,7 +116,9 @@ void mousePressed() {
         //println(cor);
 
         //savedcolors = append(savedcolors, cor);
+        if(c<4){
         savedcolors[c] = byte(cor);
+        }
 
         println(savedcolors);
         rectMode(CORNER);
