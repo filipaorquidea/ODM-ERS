@@ -1,3 +1,4 @@
+import processing.serial.*;
 import gab.opencv.*;
 import processing.video.*;
 
@@ -9,7 +10,21 @@ int silhueta;
 int lastCaptureTime;
 int captureInterval = 10000; // Intervalo de 10 segundos (10000 milissegundos)
 
+//Comunicação Serial
+Serial myPort;
+String myString;
+int lf = 10;
+byte [] currentUser ={0, 0, 0, 0};
+
+String nomePastaOuput;
+
 void setup() {
+  //Configurar e Limpar a Serial Port
+   printArray(Serial.list());
+   String portName = Serial.list()[2];
+   myPort = new Serial(this, portName, 9600);
+   myPort.clear();
+
   size(1280, 960);
   silhueta = 1;
   lastCaptureTime = 0;
@@ -35,9 +50,19 @@ void setup() {
 
   // Inicializa o OpenCV
   opencv = new OpenCV(this, cam.width, cam.height);
+
+  //Exportação
+  nomePastaOuput = System.currentTimeMillis() + "";
 }
 
 void draw() {
+  //save(sketchPath("exportacao/" + nomePastaOuput + "/" + nf(frameCount, 6) + ".jpg"));
+
+  //Ler Data
+  while (myPort.available() > 0) {
+   getData();
+   }
+
   if (cam.available() == true) {
     cam.read();
     println("Frame lido da câmera.");
@@ -78,7 +103,8 @@ void draw() {
 
     // Verifica se é hora de salvar um frame
     if (millis() - lastCaptureTime >= captureInterval) {
-      saveFrame("output-####.png");
+      save(sketchPath("exportacao/" + nomePastaOuput + "/" + str(currentUser[0])+" "+str(currentUser[1])+" "+str(currentUser[2])+" "+str(currentUser[3])+ ".jpg"));
+      //saveFrame("output-####.png");
       println("Frame salvo.");
       lastCaptureTime = millis(); // Atualiza o tempo da última captura
     }
@@ -99,4 +125,26 @@ void keyReleased() {
   } else if (key == '3') {
     silhueta = 3;
   }
+}
+
+void getData() {
+
+  //Ler a informação da serial port
+  myString = myPort.readStringUntil(lf);
+  println(myString);
+
+  if (myString != null) {
+
+    if (myString.charAt(0) == 'U') {
+
+      String[] userIdSplit = split(myString, ' ');
+
+      for (int i = 1; i < 5; i++) {
+        currentUser[i-1] = byte(int(userIdSplit[i]));
+        //println(hex(currentUser[i-1]));
+      }
+    }
+  }
+
+  println(currentUser);
 }
