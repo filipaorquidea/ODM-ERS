@@ -26,6 +26,8 @@ String myString;
 int lf = 10;
 byte [] currentUser ={0, 0, 0, 0};
 
+String nomePastaOuput;
+
 void setup() {
   size(600, 150);
   smooth();
@@ -49,6 +51,7 @@ void setup() {
 
 
   c=0;
+  nomePastaOuput = System.currentTimeMillis() + "";
 }
 
 void draw() {
