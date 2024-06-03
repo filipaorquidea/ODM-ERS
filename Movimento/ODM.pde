@@ -73,7 +73,7 @@ void draw() {
     // Processa e exibe as bordas usando o método Canny
     opencv.findCannyEdges(20, 75);
     canny = opencv.getSnapshot();
-    tint(255, 204); // Define a opacidade da imagem
+    tint(255, 20); // Define a opacidade da imagem
     image(canny, 0, 0, 1280, 960);
 
     // Processa e exibe as bordas usando o método Scharr
