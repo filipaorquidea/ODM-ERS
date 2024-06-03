@@ -78,7 +78,7 @@ void setup() {
 }
 
 void draw() {
-  //save(sketchPath("exportacao/" + nomePastaOuput + "/" + nf(frameCount, 6) + ".jpg"));
+  save(sketchPath("exportacao/" + nomePastaOuput + "/" + nf(frameCount, 6) + ".jpg"));
 
   //Ler Data
   /*while (myPort.available() > 0) {
@@ -135,6 +135,7 @@ void draw() {
 
       textAlign(CENTER, CENTER);
       fill(255);
+      textSize(80);
       text(3-(countdown-seconds), width/2+1, height/2-5);
     }
     if ((countdown-seconds) >= 3) {
