@@ -46,7 +46,8 @@ void setup() {
       matrizQuadrados[i][j] = new Quadrado(x, y, lado, cor);
     }
   }
-  
+
+
   c=0;
 }
 
@@ -58,6 +59,7 @@ void draw() {
    getData();
    }*/
 
+
   background(0);
   for (int i = 0; i < linhas; i++) {
     for (int j = 0; j < colunas; j++) {
@@ -65,18 +67,16 @@ void draw() {
     }
   }
 
-  if (bigQuadrado != null) {
-    bigQuadrado.desenhar();
-  }
   for (int i = 0; i < numRipples; i++) {
     if (rippleRadius[i] > 0) {
       drawRipple(i);
       updateRipple(i);
     }
   }
-  stroke(0);
   
-  if(c >= 4){
+  stroke(0);
+
+  if (c >= 4) {
     saveBytes(str(currentUser[0])+" "+str(currentUser[1])+" "+str(currentUser[2])+" "+str(currentUser[3])+".dat", savedcolors);
   }
 }
@@ -109,24 +109,25 @@ void mousePressed() {
 
   for (int i = 0; i < linhas; i++) {
     for (int j = 0; j < colunas; j++) {
-      
+
       if (matrizQuadrados[i][j].emCima(mouseX, mouseY)) {
+        
+        println(matrizQuadrados[i][j].emCima(mouseX, mouseY) + "" + i);
 
         cor = matrizQuadrados[i][j].cor;
         //println(cor);
 
         //savedcolors = append(savedcolors, cor);
-        if(c<4){
+        if (c<4) {
           savedcolors[c] = byte(cor);
         }
-
-        println(savedcolors);
-        rectMode(CORNER);
-        //bigQuadrado = new Quadrado(width-lado*2, lado*3/2, lado*3, cor); 
+        
+        matrizQuadrados[i][j].updateCor(colors[int(random(colors.length))]);
+        //println(savedcolors);
       }
     }
   }
-  
+
   stroke(cor);
   c++;
 }
@@ -135,7 +136,7 @@ void getData() {
 
   //Ler a informação da serial port
   myString = myPort.readStringUntil(lf);
-  println(myString);
+  //println(myString);
 
   if (myString != null) {
 
@@ -150,5 +151,5 @@ void getData() {
     }
   }
 
-  println(currentUser);
+  //println(currentUser);
 }
