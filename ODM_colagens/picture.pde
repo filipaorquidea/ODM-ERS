@@ -4,7 +4,7 @@ import processing.video.*;
 Capture live_camera;
 int seconds, countdown, filter, pos_x, pos_y, div_factor;
 boolean trigger_countdown;
-String nomePastaOuput;
+String nomePastaOutput;
 
 //Comunicação Serial
 Serial myPort;
@@ -70,7 +70,7 @@ void setup() {
   countdown = 0;
   seconds = 0;
   filter = 0;
-  nomePastaOuput = System.currentTimeMillis() + "";
+  nomePastaOutput = System.currentTimeMillis() + "";
 
   pos_x = 15;
   pos_y = height-80;
@@ -78,7 +78,7 @@ void setup() {
 }
 
 void draw() {
-  save(sketchPath("exportacao/" + nomePastaOuput + "/" + nf(frameCount, 6) + ".jpg"));
+  save(sketchPath("exportacao/" + nomePastaOutput + "/" + nf(frameCount, 6) + ".jpg"));
 
   //Ler Data
   /*while (myPort.available() > 0) {
@@ -139,9 +139,9 @@ void draw() {
       text(3-(countdown-seconds), width/2+1, height/2-5);
     }
     if ((countdown-seconds) >= 3) {
-      //save(sketchPath("exportacao/" + nomePastaOuput + "/" + str(currentUser[0])+" "+str(currentUser[1])+" "+str(currentUser[2])+" "+str(currentUser[3])+ ".jpg"));
+      //save(sketchPath("exportacao/" + nomePastaOutput + "/" + str(currentUser[0])+" "+str(currentUser[1])+" "+str(currentUser[2])+" "+str(currentUser[3])+ ".jpg"));
 
-      //save(sketchPath("exportacao/" + nomePastaOuput + "/" + nf(frameCount, 6) + ".jpg"));
+      //save(sketchPath("exportacao/" + nomePastaOutput + "/" + nf(frameCount, 6) + ".jpg"));
 
       countdown = 0;
       trigger_countdown = false;
