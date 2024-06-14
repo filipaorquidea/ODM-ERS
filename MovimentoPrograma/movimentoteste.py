@@ -163,7 +163,8 @@ predefined_poses = [
 pose_index = 0
 
 # Diretórios para salvar imagens e dados
-output_dir = "exportacao"
+#output_dir = "exportacao"
+output_dir = "../ODM_data"
 image_dir = os.path.join(output_dir, "imagens")
 
 if not os.path.exists(output_dir):
@@ -255,7 +256,8 @@ while True:
                 # Gera um prefixo para o nome do arquivo baseado no ID do utilizador
                 filename_prefix = ''.join(format(x, '02X') for x in currentUser[:2])
                 dat_filename = f"{output_dir}/{filename_prefix}.dat"
-                img_filename = f"{output_dir}/{filename_prefix}.jpg"
+                #img_filename = f"{output_dir}/{filename_prefix}.jpg"
+                img_filename = f"{output_dir}/{filename_prefix}movimento.jpg"
                 # Salva as coordenadas dos pontos chave em um arquivo .dat
                 save_to_dat_file(landMarks, dat_filename)
                 # Salva o frame atual como uma imagem .jpg
