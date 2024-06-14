@@ -10,7 +10,7 @@ void setup() {
   size(1000, 800);
   //fullScreen();
 
-  loadColors("0 0 0 0.dat");
+  loadColors("cores.txt");
 
   // Carrega as imagens
   img1 = loadImage("imagem1.png");
@@ -34,18 +34,19 @@ void setup() {
       float alphaVertical = (float)y / img1.height;
 
       // Mix horizontal entre blendColors[0] e a imagem 1
-      float rH = red(c1) * alphaHorizontal + red(blendColors[0]) * (1 - alphaHorizontal);
-      float gH = green(c1) * alphaHorizontal + green(blendColors[0]) * (1 - alphaHorizontal);
-      float bH = blue(c1) * alphaHorizontal + blue(blendColors[0]) * (1 - alphaHorizontal);
+      float r = red(c1) * alphaHorizontal + red(blendColors[0]) * (1 - alphaHorizontal);
+      float g = green(c1) * alphaHorizontal + green(blendColors[0]) * (1 - alphaHorizontal);
+      float b = blue(c1) * alphaHorizontal + blue(blendColors[0]) * (1 - alphaHorizontal);
 
       // Mix vertical entre blendColors[1] e a imagem 2
       float rV = red(c2) * alphaVertical + red(blendColors[1]) * (1 - alphaVertical);
       float gV = green(c2) * alphaVertical + green(blendColors[1]) * (1 - alphaVertical);
       float bV = blue(c2) * alphaVertical + blue(blendColors[1]) * (1 - alphaVertical);
 
-      float r = (rH + rV);
-      float g = (gH + gV);
-      float b = (bH + bV);
+      // Aplica a segunda camada sobre a primeira
+      r += rV;
+      g += gV;
+      b += bV;
 
       blendedImg.set(x, y, color(r, g, b));
     }
