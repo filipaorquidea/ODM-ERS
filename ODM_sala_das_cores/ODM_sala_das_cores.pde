@@ -11,7 +11,7 @@ Quadrado bigQuadrado = null;
 
 color[] colors = {#65B8CA, #9AD26A, #8A46BF, #F3DB19, #C03D74, #D16F1F, #000000};
 //color[] savedcolors = {0};
-byte savedcolors [] = new byte[4];
+byte savedcolors [] = new byte[12];
 int c;
 
 int numRipples = 5;
@@ -58,7 +58,7 @@ void draw() {
   //save(sketchPath("exportacao/" + nomePastaOuput + "/" + nf(frameCount, 6) + ".jpg"));
 
   //Ler Data
-  /*while (myPort.available() > 0) {
+  /*if (myPort.available() > 0) {
    getData();
    }*/
 
@@ -76,7 +76,7 @@ void draw() {
       updateRipple(i);
     }
   }
-  
+
   stroke(0);
 
   if (c >= 4) {
@@ -114,17 +114,19 @@ void mousePressed() {
     for (int j = 0; j < colunas; j++) {
 
       if (matrizQuadrados[i][j].emCima(mouseX, mouseY)) {
-        
+
         println(matrizQuadrados[i][j].emCima(mouseX, mouseY) + "" + i);
 
         cor = matrizQuadrados[i][j].cor;
-        //println(cor);
+        println(cor);
 
         //savedcolors = append(savedcolors, cor);
         if (c<4) {
-          savedcolors[c] = byte(cor);
+          savedcolors[((c*2)+c)] = byte(red(cor));
+          savedcolors[((c*2)+c)+1] = byte(green(cor));
+          savedcolors[((c*2)+c)+2] = byte(blue(cor));
         }
-        
+
         matrizQuadrados[i][j].updateCor(colors[int(random(colors.length))]);
         //println(savedcolors);
       }
@@ -154,5 +156,6 @@ void getData() {
     }
   }
 
+  c = 0;
   //println(currentUser);
 }

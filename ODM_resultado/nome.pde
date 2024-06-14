@@ -7,7 +7,11 @@ String nomePastaOutput;
 Serial myPort;
 String myString;
 int lf = 10;
-byte [] currentUser ={0, 0, 0, 0};
+byte [] currentUser = {0, 0, 0, 0};
+byte [] final_colors;
+
+color[] colors = {#65B8CA, #9AD26A, #8A46BF, #F3DB19, #C03D74, #D16F1F};
+int color1, color2;
 
 void setup() {
   size(620, 877);
@@ -26,24 +30,38 @@ void setup() {
   text = loadImage("../ODM_data/lagen.png");
 
   smooth(8);
+  
+  final_colors = loadBytes("../ODM_data/0 0 0 0cores.dat");
+  
+  random_colors();
+  //println(color1);
+  //println(color2);
 }
 
 void draw() {
   //Ler Data
-  /*while (myPort.available() > 0) {
+  /*if (myPort.available() > 0) {
    getData();
-   }*/
+   }*/ 
+   
+ //Ver se isto resulta - só recebe a informação quando troca o RFID
 
   pushStyle();
-  tint(192, 61, 116);
+  tint(color1);
   image(img1, 0, 0, width, height);
 
-  tint(209, 111, 31, 200);
+  tint(color2, 200);
   image(img2, 0, 0, width, height);
 
   popStyle();
 
   image(text, -20, 0, width+50, height+50);
+  
+  //Debug
+  /*fill(color1);
+  rect(0,0,100,100);
+  fill(color2);
+  rect(200,200,100,100);*/
 }
 
 void keyPressed() {
@@ -72,7 +90,19 @@ void getData() {
     }
   }
 
-  byte [] load = loadBytes("../ODM_data/" + str(currentUser[0])+" "+str(currentUser[1])+" "+str(currentUser[2])+" "+str(currentUser[3])+"cores.dat");
+  final_colors = loadBytes("../ODM_data/" + str(currentUser[0])+" "+str(currentUser[1])+" "+str(currentUser[2])+" "+str(currentUser[3])+"cores.dat");
   img1 = loadImage("../ODM_data/" + str(currentUser[0])+" "+str(currentUser[1])+" "+str(currentUser[2])+" "+str(currentUser[3])+"colagem.jpg");
   img2 = loadImage("../ODM_data/" + str(currentUser[0])+" "+str(currentUser[1])+" "+str(currentUser[2])+" "+str(currentUser[3])+"movimento.jpg");
+}
+
+void random_colors(){
+  int c = int(random(3));
+  int c2 = int(random(3));
+  
+  //println(c);
+  //println(c2);
+  
+  color1 = color(map(final_colors[((c*2)+c)],127,-128,0,255),map(final_colors[((c*2)+c)+1],127,-128,0,255),map(final_colors[((c*2)+c)+2],127,-128,0,255));
+  //color2 = color(final_colors[((c2*2)+c2)],final_colors[((c2*2)+c2)+1], final_colors[((c2*2)+c2)+2]);
+  color2 = color(map(final_colors[((c2*2)+c2)],127,-128,0,255),map(final_colors[((c2*2)+c2)+1],127,-128,0,255),map(final_colors[((c2*2)+c2)+2],127,-128,0,255));
 }
