@@ -32,7 +32,6 @@ void setup() {
   smooth(8);
   
   final_colors = loadBytes("../ODM_data/0 0 0 0cores.dat");
-  
   random_colors();
   //println(color1);
   //println(color2);
@@ -42,6 +41,7 @@ void draw() {
   //Ler Data
   /*if (myPort.available() > 0) {
    getData();
+   random_colors();
    }*/ 
    
  //Ver se isto resulta - só recebe a informação quando troca o RFID
