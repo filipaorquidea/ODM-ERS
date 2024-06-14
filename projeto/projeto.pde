@@ -7,52 +7,50 @@ PImage img1, img2, blendedImg;
 color[] blendColors;
 
 void setup() {
-  size(800, 600);
+  size(1000, 800);
+  //fullScreen();
 
+  loadColors("0 0 0 0.dat");
 
-  loadColors("nome.txt");
-
-
-  img1 = loadImage("imagem1.jpg");
-  img2 = loadImage("imagem2.jpg");
-
+  // Carrega as imagens
+  img1 = loadImage("imagem1.png");
+  img2 = loadImage("imagem2.png");
 
   if (img1 == null || img2 == null) {
     println("Erro ao carregar as imagens.");
     exit();
   }
 
+  blendedImg = createImage(img2.width, img2.height, RGB);
 
-  if (img1.width != img2.width || img1.height != img2.height) {
-    println("As imagens devem ter o mesmo tamanho.");
-    exit();
-  }
-
-  // Cria uma nova imagem para armazenar o resultado do blend
-  blendedImg = createImage(img1.width, img1.height, RGB);
-
-  // Faz o blend das imagens manualmente usando as cores do arquivo
+  // Faz o blend das imagens
   for (int x = 0; x < img1.width; x++) {
     for (int y = 0; y < img1.height; y++) {
       color c1 = img1.get(x, y);
       color c2 = img2.get(x, y);
 
-      // Ajusta a transparência (alfa) para a mistura
-      float alpha = 0.5;
-      float r = red(c1) * alpha + red(c2) * (1 - alpha);
-      float g = green(c1) * alpha + green(c2) * (1 - alpha);
-      float b = blue(c1) * alpha + blue(c2) * (1 - alpha);
+      // Calcula o alfa baseado na posição horizontal e vertical
+      float alphaHorizontal = (float)x / img1.width;
+      float alphaVertical = (float)y / img1.height;
 
-      // Aplica a cor do arquivo (usando a posição x como índice)
-      int colorIndex = x % blendColors.length;
-      color blendColor = blendColors[colorIndex];
-      r = (r + red(blendColor)) / 2;
-      g = (g + green(blendColor)) / 2;
-      b = (b + blue(blendColor)) / 2;
+      // Mix horizontal entre blendColors[0] e a imagem 1
+      float rH = red(c1) * alphaHorizontal + red(blendColors[0]) * (1 - alphaHorizontal);
+      float gH = green(c1) * alphaHorizontal + green(blendColors[0]) * (1 - alphaHorizontal);
+      float bH = blue(c1) * alphaHorizontal + blue(blendColors[0]) * (1 - alphaHorizontal);
+
+      // Mix vertical entre blendColors[1] e a imagem 2
+      float rV = red(c2) * alphaVertical + red(blendColors[1]) * (1 - alphaVertical);
+      float gV = green(c2) * alphaVertical + green(blendColors[1]) * (1 - alphaVertical);
+      float bV = blue(c2) * alphaVertical + blue(blendColors[1]) * (1 - alphaVertical);
+
+      float r = (rH + rV);
+      float g = (gH + gV);
+      float b = (bH + bV);
 
       blendedImg.set(x, y, color(r, g, b));
     }
   }
+  noLoop();
 }
 
 void draw() {
@@ -60,29 +58,23 @@ void draw() {
   image(blendedImg, 0, 0);
 }
 
+
 void loadColors(String filename) {
-  String[] lines = loadStrings(filename);
-  blendColors = new color[lines.length];
+  byte[] bytes = loadBytes(filename);
 
-  for (int i = 0; i < lines.length; i++) {
-    String line = lines[i].trim();
-    if (line.startsWith("#")) {
-      blendColors[i] = unhex(line.substring(1));
-    } else {
-      String[] rgb = split(line, ',');
-      if (rgb.length == 3) {
-        int r = int(trim(rgb[0]));
-        int g = int(trim(rgb[1]));
-        int b = int(trim(rgb[2]));
-        blendColors[i] = color(r, g, b);
-      }
-    }
-  }
+  blendColors = new color[2];
+
+  // Carrega as cores do arquivo .dat
+  int r1 = bytes[0] & 0xFF;
+  int g1 = bytes[1] & 0xFF;
+  int b1 = bytes[2] & 0xFF;
+  blendColors[0] = color(r1, g1, b1);
+
+  int r2 = bytes[3] & 0xFF;
+  int g2 = bytes[4] & 0xFF;
+  int b2 = bytes[5] & 0xFF;
+  blendColors[1] = color(r2, g2, b2);
 }
-
-
-
-
 
 /*void getData() {
  
