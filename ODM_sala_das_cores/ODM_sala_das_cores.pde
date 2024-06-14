@@ -55,7 +55,7 @@ void setup() {
 }
 
 void draw() {
-  save(sketchPath("exportacao/" + nomePastaOuput + "/" + nf(frameCount, 6) + ".jpg"));
+  //save(sketchPath("exportacao/" + nomePastaOuput + "/" + nf(frameCount, 6) + ".jpg"));
 
   //Ler Data
   /*while (myPort.available() > 0) {
@@ -80,7 +80,7 @@ void draw() {
   stroke(0);
 
   if (c >= 4) {
-    saveBytes(str(currentUser[0])+" "+str(currentUser[1])+" "+str(currentUser[2])+" "+str(currentUser[3])+".dat", savedcolors);
+    saveBytes("../ODM_data/" + str(currentUser[0])+" "+str(currentUser[1])+" "+str(currentUser[2])+" "+str(currentUser[3])+"cores.dat", savedcolors);
   }
 }
 

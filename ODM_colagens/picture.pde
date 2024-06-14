@@ -78,7 +78,7 @@ void setup() {
 }
 
 void draw() {
-  save(sketchPath("exportacao/" + nomePastaOutput + "/" + nf(frameCount, 6) + ".jpg"));
+  //save(sketchPath("exportacao/" + nomePastaOutput + "/" + nf(frameCount, 6) + ".jpg"));
 
   //Ler Data
   /*while (myPort.available() > 0) {
@@ -139,7 +139,7 @@ void draw() {
       text(3-(countdown-seconds), width/2+1, height/2-5);
     }
     if ((countdown-seconds) >= 3) {
-      //save(sketchPath("exportacao/" + nomePastaOutput + "/" + str(currentUser[0])+" "+str(currentUser[1])+" "+str(currentUser[2])+" "+str(currentUser[3])+ ".jpg"));
+      save(sketchPath("../ODM_data/" + str(currentUser[0])+" "+str(currentUser[1])+" "+str(currentUser[2])+" "+str(currentUser[3])+"colagem.jpg"));
 
       //save(sketchPath("exportacao/" + nomePastaOutput + "/" + nf(frameCount, 6) + ".jpg"));
 
