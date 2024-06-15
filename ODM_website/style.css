@@ -106,9 +106,12 @@ section {
   margin-left: 2vw;
 }
 
-.visit_nav li a:hover,
-.exhibition_nav li a:hover {
+.visit_nav li a:hover {
   color: #9ad26a;
+}
+
+.exhibition_nav li a:hover {
+  color: #c03d74;
 }
 
 /*Page's Text*/
