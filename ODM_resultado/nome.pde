@@ -1,6 +1,6 @@
 import processing.serial.*;
 
-PImage img1, img2, text;
+PImage img1, img2, blendedImg, text;
 String nomePastaOutput;
 
 //Comunicação Serial
@@ -30,11 +30,13 @@ void setup() {
   text = loadImage("../ODM_data/lagen.png");
 
   smooth(8);
-  
+
   final_colors = loadBytes("../ODM_data/0 0 0 0cores.dat");
   random_colors();
   //println(color1);
   //println(color2);
+
+  blendedImg = createImage(width, height, RGB);
 }
 
 void draw() {
@@ -42,26 +44,56 @@ void draw() {
   /*if (myPort.available() > 0) {
    getData();
    random_colors();
-   }*/ 
-   
- //Ver se isto resulta - só recebe a informação quando troca o RFID
+   }*/
 
-  pushStyle();
-  tint(color1);
-  image(img1, 0, 0, width, height);
+  //Ver se isto resulta - só recebe a informação quando troca o RFID
 
-  tint(color2, 200);
-  image(img2, 0, 0, width, height);
+  // Cria gráficos intermediários para aplicar os tints
+  PGraphics temp1 = createGraphics(width, height);
+  PGraphics temp2 = createGraphics(width, height);
 
-  popStyle();
+  // Aplica o tint e desenha img1 em temp1
+  temp1.beginDraw();
+  temp1.tint(color1, 200);
+  temp1.image(img1, 0, 0, width, height);
+  temp1.endDraw();
 
-  image(text, -20, 0, width+50, height+50);
-  
+  temp2.beginDraw();
+  temp2.tint(color2);
+  temp2.image(img2, 0, 0, width, height);
+  temp2.endDraw();
+
+  //blend das imagens
+  temp1.loadPixels();
+  temp2.loadPixels();
+  blendedImg.loadPixels();
+  for (int y = 0; y < height; y++) {
+    float alpha = (float)y / height;
+    for (int x = 0; x < width; x++) {
+      int loc = x + y * width;
+      color c1 = temp1.pixels[loc];
+      color c2 = temp2.pixels[loc];
+
+      // Mistura os pixels das duas imagens
+      float r = red(c1) * (1 - alpha) + red(c2) * alpha;
+      float g = green(c1) * (1 - alpha) + green(c2) * alpha;
+      float b = blue(c1) * (1 - alpha) + blue(c2) * alpha;
+
+      // Define a cor no blendedImg
+      blendedImg.pixels[loc] = color(r, g, b);
+    }
+  }
+  blendedImg.updatePixels();
+
+  image(blendedImg, 0, 0);
+
+  image(text, -20, 0, width + 50, height + 50);
+
   //Debug
   /*fill(color1);
-  rect(0,0,100,100);
-  fill(color2);
-  rect(200,200,100,100);*/
+   rect(0,0,100,100);
+   fill(color2);
+   rect(200,200,100,100);*/
 }
 
 void keyPressed() {
@@ -95,14 +127,14 @@ void getData() {
   img2 = loadImage("../ODM_data/" + str(currentUser[0])+" "+str(currentUser[1])+" "+str(currentUser[2])+" "+str(currentUser[3])+"movimento.jpg");
 }
 
-void random_colors(){
+void random_colors() {
   int c = int(random(3));
   int c2 = int(random(3));
-  
+
   //println(c);
   //println(c2);
-  
-  color1 = color(map(final_colors[((c*2)+c)],127,-128,0,255),map(final_colors[((c*2)+c)+1],127,-128,0,255),map(final_colors[((c*2)+c)+2],127,-128,0,255));
+
+  color1 = color(map(final_colors[((c*2)+c)], 127, -128, 0, 255), map(final_colors[((c*2)+c)+1], 127, -128, 0, 255), map(final_colors[((c*2)+c)+2], 127, -128, 0, 255));
   //color2 = color(final_colors[((c2*2)+c2)],final_colors[((c2*2)+c2)+1], final_colors[((c2*2)+c2)+2]);
-  color2 = color(map(final_colors[((c2*2)+c2)],127,-128,0,255),map(final_colors[((c2*2)+c2)+1],127,-128,0,255),map(final_colors[((c2*2)+c2)+2],127,-128,0,255));
+  color2 = color(map(final_colors[((c2*2)+c2)], 127, -128, 0, 255), map(final_colors[((c2*2)+c2)+1], 127, -128, 0, 255), map(final_colors[((c2*2)+c2)+2], 127, -128, 0, 255));
 }

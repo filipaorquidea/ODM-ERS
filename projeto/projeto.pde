@@ -7,47 +7,35 @@ PImage img1, img2, blendedImg;
 color[] blendColors;
 
 void setup() {
-  size(1000, 800);
+  size(620, 877);
   //fullScreen();
 
-  loadColors("cores.txt");
+  loadColors("0 0 0 0cores.dat");
 
   // Carrega as imagens
-  img1 = loadImage("imagem1.png");
-  img2 = loadImage("imagem2.png");
+  img1 = loadImage("../ODM_data/img1.jpg");
+  img2 = loadImage("../ODM_data/img5.jpg");
 
   if (img1 == null || img2 == null) {
     println("Erro ao carregar as imagens.");
     exit();
   }
 
-  blendedImg = createImage(img2.width, img2.height, RGB);
+  blendedImg = createImage(img1.width, img1.height, RGB);
 
   // Faz o blend das imagens
-  for (int x = 0; x < img1.width; x++) {
-    for (int y = 0; y < img1.height; y++) {
+  for (int y = 0; y < img1.height; y++) {
+    float alpha = (float)y / img1.height;  // Calcula o alfa baseado na posição vertical
+    for (int x = 0; x < img1.width; x++) {
       color c1 = img1.get(x, y);
       color c2 = img2.get(x, y);
 
-      // Calcula o alfa baseado na posição horizontal e vertical
-      float alphaHorizontal = (float)x / img1.width;
-      float alphaVertical = (float)y / img1.height;
+      // Mistura os pixels das duas imagens
+      float r = red(c1) * (1 - alpha) + red(c2) * alpha;
+      float g = green(c1) * (1 - alpha) + green(c2) * alpha;
+      float b = blue(c1) * (1 - alpha) + blue(c2) * alpha;
 
-      // Mix horizontal entre blendColors[0] e a imagem 1
-      float r = red(c1) * alphaHorizontal + red(blendColors[0]) * (1 - alphaHorizontal);
-      float g = green(c1) * alphaHorizontal + green(blendColors[0]) * (1 - alphaHorizontal);
-      float b = blue(c1) * alphaHorizontal + blue(blendColors[0]) * (1 - alphaHorizontal);
-
-      // Mix vertical entre blendColors[1] e a imagem 2
-      float rV = red(c2) * alphaVertical + red(blendColors[1]) * (1 - alphaVertical);
-      float gV = green(c2) * alphaVertical + green(blendColors[1]) * (1 - alphaVertical);
-      float bV = blue(c2) * alphaVertical + blue(blendColors[1]) * (1 - alphaVertical);
-
-      // Aplica a segunda camada sobre a primeira
-      r += rV;
-      g += gV;
-      b += bV;
-
+      // Define a cor no blendedImg
       blendedImg.set(x, y, color(r, g, b));
     }
   }
