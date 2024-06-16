@@ -106,34 +106,34 @@ predefined_pose1 = {
 
 #Pose 2, pontos que definem a pose
 predefined_pose2 = {
-    "LEFT_SHOULDER": (330, 320),
-    "RIGHT_SHOULDER": (500, 300),
-    "LEFT_ELBOW": (720, 340),
-    "RIGHT_ELBOW": (450, 400),
-    "LEFT_WRIST": (800, 290),
-    "RIGHT_WRIST": (360, 520),
-    "LEFT_HIP": (240, 510),
-    "RIGHT_HIP": (605, 530),
-    "LEFT_KNEE": (810, 810),
-    "RIGHT_KNEE": (650, 780),
-    "LEFT_ANKLE": (850, 940),
-    "RIGHT_ANKLE": (540, 900)
+    "LEFT_SHOULDER": (890, 330),#feito
+    "RIGHT_SHOULDER": (745, 250), #feito
+    "LEFT_ELBOW": (1000, 380),#feito
+    "RIGHT_ELBOW": (660, 210), #feito
+    "LEFT_WRIST": (970, 500), #feito
+    "RIGHT_WRIST": (735, 180), #feito
+    "LEFT_HIP": (865, 510), #feito
+    "RIGHT_HIP": (750, 530), #feito
+    "LEFT_KNEE": (850, 760), #feito
+    "RIGHT_KNEE": (790, 760), 
+    "LEFT_ANKLE": (900, 940),
+    "RIGHT_ANKLE": (880, 960)
 }
 
 #Pose 3, pontos que definem a pose
 predefined_pose3 = {
-    "LEFT_SHOULDER": (330, 320),
-    "RIGHT_SHOULDER": (500, 300),
-    "LEFT_ELBOW": (420, 340),
-    "RIGHT_ELBOW": (750, 400),
-    "LEFT_WRIST": (700, 290),
-    "RIGHT_WRIST": (460, 520),
-    "LEFT_HIP": (640, 510),
-    "RIGHT_HIP": (505, 530),
-    "LEFT_KNEE": (410, 810),
-    "RIGHT_KNEE": (350, 780),
-    "LEFT_ANKLE": (350, 940),
-    "RIGHT_ANKLE": (440, 900)
+    "LEFT_SHOULDER": (680, 320), #feito
+    "RIGHT_SHOULDER": (810, 350), #feito
+    "LEFT_ELBOW": (640, 230), #feito
+    "RIGHT_ELBOW": (890, 425), #feito
+    "LEFT_WRIST": (750, 130), #feito
+    "RIGHT_WRIST": (960, 440), #feito
+    "LEFT_HIP": (710, 510), #feito
+    "RIGHT_HIP": (780, 480), #feito
+    "LEFT_KNEE": (830, 730),
+    "RIGHT_KNEE": (940, 470), #feito
+    "LEFT_ANKLE": (800, 920),
+    "RIGHT_ANKLE": (1050, 550), #feito
 }
 
 
@@ -163,7 +163,6 @@ predefined_poses = [
 pose_index = 0
 
 # Diretórios para salvar imagens e dados
-#output_dir = "exportacao"
 output_dir = "../ODM_data"
 image_dir = os.path.join(output_dir, "imagens")
 
@@ -185,8 +184,8 @@ def is_pose_matching(landmarks, predefined_pose, threshold=100):
             dist = calculate_distance(joint_pos, landmarks[joint_name])
             if dist < threshold:
                 #aqui é definido o número de joints para fazer match, podemos aumentar isso
-                matched_joints += 1
-    return matched_joints >= 1 
+                matched_joints += 6
+    return matched_joints >= 6 
     
 
 # Função para salvar os pontos de referência da pose em um arquivo .dat
@@ -200,7 +199,7 @@ def save_to_dat_file(landmarks, filename):
 def get_serial_data():
     #propriedade do objeto serial (ser) que indica quantos bytes estão esperando para serem lidos 
     #se for maior que 0, significa que há dados disponíveis
-    while ser.in_waiting > 0:
+   while ser.in_waiting > 0:
 #converte os dados de bytes para uma string usando a codificação UTF-8
 #o strip só remove os espaços em branco no início e fim da string
         myString = ser.readline().decode('utf-8').strip()
@@ -210,7 +209,7 @@ def get_serial_data():
             for i in range(1, 5):
                 currentUser[i-1] = int(userIdSplit[i])
             return True
-    return False       
+        return False       
 
 currentUser = bytearray([0, 0, 0, 0])
 
@@ -229,7 +228,7 @@ while True:
     #se tiver algo desenhar no frame normal, sem ser no frame RGB
     if results.pose_landmarks:
         #DESCOMENTAR CASO QUEIRA VER OS JOINTS DO USER
-       # mpDraw.draw_landmarks(frame,results.pose_landmarks, mp.solutions.pose.POSE_CONNECTIONS)
+        #mpDraw.draw_landmarks(frame,results.pose_landmarks, mp.solutions.pose.POSE_CONNECTIONS)
         for idx, lm in enumerate(results.pose_landmarks.landmark):
             pos_x = int(lm.x * width)
             pos_y = int(lm.y * height)
@@ -256,7 +255,6 @@ while True:
                 # Gera um prefixo para o nome do arquivo baseado no ID do utilizador
                 filename_prefix = ''.join(format(x, '02X') for x in currentUser[:2])
                 dat_filename = f"{output_dir}/{filename_prefix}.dat"
-                #img_filename = f"{output_dir}/{filename_prefix}.jpg"
                 img_filename = f"{output_dir}/{filename_prefix}movimento.jpg"
                 # Salva as coordenadas dos pontos chave em um arquivo .dat
                 save_to_dat_file(landMarks, dat_filename)
@@ -273,16 +271,16 @@ while True:
         print(f"Received user data: {list(currentUser)}")
         
 # Desenha os pontos chave da pose pré-definida atual
-    for joint_name, joint in predefined_poses[pose_index].items():
-        cv2.circle(frame, joint, 5, (0, 0, 255), -1)
-        cv2.putText(frame, joint_name, (joint[0] + 10, joint[1] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+    #for joint_name, joint in predefined_poses[pose_index].items():
+        #cv2.circle(frame, joint, 5, (0, 0, 255), -1)
+        #cv2.putText(frame, joint_name, (joint[0] + 10, joint[1] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
 # Desenha as conexões entre os pontos da pose atual
     for connection in connections:
         if connection[0] in predefined_poses[pose_index] and connection[1] in predefined_poses[pose_index]:
             joint1 = predefined_poses[pose_index][connection[0]]
             joint2 = predefined_poses[pose_index][connection[1]]
-            cv2.line(frame, joint1, joint2, (255, 0, 0), 2)
+            #cv2.line(frame, joint1, joint2, (255, 0, 0), 2)
 
  # Aplica o overlay ao frame
     frame = overlay(frame, overlay_images[pose_index], pos_x=100, pos_y=100)
