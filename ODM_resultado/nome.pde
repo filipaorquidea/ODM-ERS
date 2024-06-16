@@ -17,10 +17,10 @@ void setup() {
   size(620, 877);
 
   //Configurar e Limpar a Serial Port
-  /*printArray(Serial.list());
-   String portName = Serial.list()[2];
+  printArray(Serial.list());
+   String portName = Serial.list()[1];
    myPort = new Serial(this, portName, 9600);
-   myPort.clear();*/
+   myPort.clear();
 
   nomePastaOutput = System.currentTimeMillis() + "";
 
@@ -41,10 +41,10 @@ void setup() {
 
 void draw() {
   //Ler Data
-  /*if (myPort.available() > 0) {
+  if (myPort.available() > 0) {
    getData();
    random_colors();
-   }*/
+   }
 
   //Ver se isto resulta - só recebe a informação quando troca o RFID
 
