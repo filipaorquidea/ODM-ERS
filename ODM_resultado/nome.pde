@@ -124,7 +124,7 @@ void getData() {
 
   final_colors = loadBytes("../ODM_data/" + str(currentUser[0])+" "+str(currentUser[1])+" "+str(currentUser[2])+" "+str(currentUser[3])+"cores.dat");
   img1 = loadImage("../ODM_data/" + str(currentUser[0])+" "+str(currentUser[1])+" "+str(currentUser[2])+" "+str(currentUser[3])+"colagem.jpg");
-  img2 = loadImage("../ODM_data/" + str(currentUser[0])+" "+str(currentUser[1])+" "+str(currentUser[2])+" "+str(currentUser[3])+"movimento.jpg");
+  img2 = loadImage("../ODM_data/" + str(currentUser[0])+str(currentUser[1])+str(currentUser[2])+str(currentUser[3])+"movimento.jpg");
 }
 
 void random_colors() {
