@@ -90,8 +90,16 @@ section {
   display: none;
   width: 100vw;
   height: 100vh;
-  background-color: white;
+  background-image: url("assets/textura1.png");
   position: fixed;
+}
+
+#exhibition_nav {
+  background-image: url("assets/fundo6.png");
+}
+
+#visit_nav {
+  background-image: url("assets/fundo5.png");
 }
 
 .visit_nav li a,
@@ -102,16 +110,16 @@ section {
   /*Font*/
   font-size: xx-large;
   font-weight: 500;
-  color: black;
+  color: white;
   margin-left: 2vw;
 }
 
 .visit_nav li a:hover {
-  color: #9ad26a;
+  color: #f3db19;
 }
 
 .exhibition_nav li a:hover {
-  color: #c03d74;
+  color: #65b8ca;
 }
 
 /*Page's Text*/
@@ -163,18 +171,14 @@ section {
   padding: 2vw;
 }
 
-#lagen2 {
-  height: 55vh;
-}
-
 section:nth-of-type(even) {
   color: white;
-  background: black;
+  background-image: url("assets/textura2.png");
 }
 
 section:nth-of-type(odd) {
   color: black;
-  background: white;
+  background-image: url("assets/textura1.png");
 }
 
 #location_contacts,
@@ -242,6 +246,25 @@ section:nth-of-type(odd) {
 #buy_tickets {
   position: relative;
   top: 2vh;
+}
+
+#bus_tickets:hover {
+  color: black;
+}
+
+#bus_tickets:after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: #c03d74;
+  transition: all 0.35s;
+}
+
+#bus_tickets:hover:after {
+  width: 100%;
 }
 
 /*Mapa*/
